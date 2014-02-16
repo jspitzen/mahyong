@@ -39,3 +39,26 @@ class Family(models.Model):
 
     class Meta:
         verbose_name_plural = 'Families'
+
+class Game(models.Model):
+    date_started = models.DateField()
+    players      = models.ManyToManyField('Player')
+
+class Round(models.Model):
+    players = models.ManyToManyField('Player', through='PlayerRound')
+    game    = models.ForeignKey('Game')
+
+class PlayerRound(models.Model):
+    # Set up position enum
+    POSITION_CHOICES = (
+        ('N', 'North'),
+        ('E', 'East'),
+        ('S', 'South'),
+        ('W', 'West'))
+
+    player     = models.ForeignKey('Player')
+    _round     = models.ForeignKey('Round')
+    position   = models.CharField(max_length = 1, choices = POSITION_CHOICES)
+    mahyong    = models.BooleanField(default = False)
+    boardScore = models.PositiveIntegerField()
+    gameScore  = models.IntegerField()
