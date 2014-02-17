@@ -57,8 +57,28 @@ class PlayerRound(models.Model):
         ('W', 'West'))
 
     player     = models.ForeignKey('Player')
-    _round     = models.ForeignKey('Round')
+    round     = models.ForeignKey('Round')
     position   = models.CharField(max_length = 1, choices = POSITION_CHOICES)
     mahyong    = models.BooleanField(default = False)
     boardScore = models.PositiveIntegerField()
     gameScore  = models.IntegerField()
+    
+    @staticmethod
+    def calculateGameScore(playerround1, playerround2):
+        # If either player is playing as East, all scores are doubled
+        if (playerround1.position == 'East' or playerround2.position == 'East'):
+            factor = 2
+        else:
+            factor = 1
+
+        # If a player has mahyong, the worst case gamescore becomes 0
+        if (playerround1.mahyong):
+            playerround1.gameScore = factor * max(0,playerround1.boardScore - playerround2.boardScore)
+            playerround2.gameScore = -playerround1.gameScore
+        elif (playerround2.mahyong):
+            playerround2.gameScore = factor * max(0,playerround2.boardScore - playerround1.boardScore)
+            playerround1.gameScore = -playerround2.gameScore
+        else:
+            # No player has mahyong, the gamescore is simply the difference
+            playerround1.gameScore = factor * (playerround1.boardScore - playerround2.boardScore)
+            playerround2.gameScore = -playerround1.gameScore
