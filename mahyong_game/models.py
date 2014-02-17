@@ -79,15 +79,17 @@ class PlayerRound(models.Model):
 
         # If a player has mahyong, the worst case gamescore becomes 0
         if (playerround1.mahyong):
-            playerround1.gameScore = factor * max(0,playerround1.boardScore - playerround2.boardScore)
-            playerround2.gameScore = -playerround1.gameScore
+            score = factor * max(0,playerround1.boardScore - playerround2.boardScore)
         elif (playerround2.mahyong):
-            playerround2.gameScore = factor * max(0,playerround2.boardScore - playerround1.boardScore)
-            playerround1.gameScore = -playerround2.gameScore
+            # Change of sign because score is calculated from player 1 to player 2
+            score = factor * -max(0, playerround2.boardScore - playerround1.boardScore)
         else:
             # No player has mahyong, the gamescore is simply the difference
-            playerround1.gameScore = factor * (playerround1.boardScore - playerround2.boardScore)
-            playerround2.gameScore = -playerround1.gameScore
+            score = factor * (playerround1.boardScore - playerround2.boardScore)
+        
+        # Add scores to gamescore
+        playerround1.gameScore += score
+        playerround2.gameScore -= score
 
     def __unicode__(self):
         str_MY = 'M' if self.mahyong else ''
