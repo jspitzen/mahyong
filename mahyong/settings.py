@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mahyong_game',
+    'django_evolution',
 )
 
 MIDDLEWARE_CLASSES = (
