@@ -43,10 +43,16 @@ class Family(models.Model):
 class Game(models.Model):
     date_started = models.DateField()
     players      = models.ManyToManyField('Player')
+    
+    def __unicode__(self):
+        return str.format("Game {}, started at {}", self.id, self.date_started)
 
 class Round(models.Model):
     players = models.ManyToManyField('Player', through='PlayerRound')
     game    = models.ForeignKey('Game')
+    
+    def __unicode__(self):
+        return str.format("Round {}", self.id)
 
 class PlayerRound(models.Model):
     # Set up position enum
@@ -57,11 +63,11 @@ class PlayerRound(models.Model):
         ('W', 'West'))
 
     player     = models.ForeignKey('Player')
-    round     = models.ForeignKey('Round')
+    _round     = models.ForeignKey('Round')
     position   = models.CharField(max_length = 1, choices = POSITION_CHOICES)
     mahyong    = models.BooleanField(default = False)
     boardScore = models.PositiveIntegerField()
-    gameScore  = models.IntegerField()
+    gameScore  = models.IntegerField(default = 0)
     
     @staticmethod
     def calculateGameScore(playerround1, playerround2):
@@ -82,3 +88,8 @@ class PlayerRound(models.Model):
             # No player has mahyong, the gamescore is simply the difference
             playerround1.gameScore = factor * (playerround1.boardScore - playerround2.boardScore)
             playerround2.gameScore = -playerround1.gameScore
+
+    def __unicode__(self):
+        str_MY = 'M' if self.mahyong else ''
+        str_E  = 'E' if self.position == 'E' else ''
+        return str.format("{} {}{} - {} points", self.player, str_MY, str_E, self.gameScore)
