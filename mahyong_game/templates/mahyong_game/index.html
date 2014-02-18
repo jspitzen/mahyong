@@ -1,0 +1,9 @@
+{% if active_games %}
+    <ul>
+    {% for game in active_games %}
+        <li>{{ game }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No games are available</p>
+{% endif %}
