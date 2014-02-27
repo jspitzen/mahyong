@@ -1,3 +1,7 @@
+{% extends "mahyong_game/base.html" %}
+{% block title %}Mahyong{% endblock %}
+
+{% block content %}
 {% if active_games %}
     <ul>
     {% for game in active_games %}
@@ -7,3 +11,4 @@
 {% else %}
     <p>No games are available</p>
 {% endif %}
+{% endblock %}
