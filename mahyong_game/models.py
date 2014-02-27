@@ -41,11 +41,12 @@ class Family(models.Model):
         verbose_name_plural = 'Families'
 
 class Game(models.Model):
+    name         = models.CharField(max_length = 64, blank = True)
     date_started = models.DateField()
     players      = models.ManyToManyField('Player')
     
     def __unicode__(self):
-        return str.format("Game {}, started at {}", self.id, self.date_started)
+        return str.format("{}: {}", self.id, self.name)
 
 class Round(models.Model):
     players = models.ManyToManyField('Player', through='PlayerRound')
