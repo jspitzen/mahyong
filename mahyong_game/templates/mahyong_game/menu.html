@@ -1,5 +1,5 @@
 <ul class="nav nav-sidebar">
-    {% for object in object_list %}
-        <li><a href="#">{{ object }}</a></li>
+    {% for object in games.all %}
+        <li><a href="game/{{ object.id }}/">{{ object }}</a></li>
     {% endfor %}
 </ul>
