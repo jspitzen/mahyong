@@ -1,5 +1,7 @@
 from django.db import models
 
+from mahyong_game.utils import *
+
 # Create your models here.
 class Player(models.Model):
     first_name   = models.CharField(max_length = 32)
@@ -50,6 +52,10 @@ class Game(models.Model):
     
     def __unicode__(self):
         return str.format("{}: {}", self.id, self.name)
+
+    def link(self):
+        # Return the link to the detailview for this Game
+        return object_detail_link(self)
 
 class Round(models.Model):
     players = models.ManyToManyField('Player', through='PlayerRound')

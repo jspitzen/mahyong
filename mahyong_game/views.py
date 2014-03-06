@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from django.utils import timezone
 
 from mahyong_game.models import *
+from mahyong_game.utils import *
 
 class IndexView(generic.ListView):
     template_name = 'mahyong_game/index.html'
-    context_object_name = 'games'
 
     def get_queryset(self):
         """Return all active games"""
@@ -16,11 +16,8 @@ class IndexView(generic.ListView):
 
 class GameDetailView(generic.DetailView):
     model = Game
-    context_object_name = 'object_set'
+    template_name = 'mahyong_game/game_detail.html'
 
     def get_context_data(self, **kwargs):
-        context = {}
-        context['menu']   = Game.objects.all()
-        context['active'] = super(GameDetailView, self).get_context_data(**kwargs)
-        context['now']    = timezone.now()
-        return context
+        kwargs['object_list'] = Game.objects.all()
+        return super(generic.DetailView, self).get_context_data(**kwargs)
