@@ -27,6 +27,7 @@ class GameDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['object_list'] = Game.objects.all()
+        kwargs['active_object'] = kwargs['object'].id
         return super(generic.DetailView, self).get_context_data(**kwargs)
 
 class PlayerDetailView(generic.DetailView):
@@ -35,4 +36,5 @@ class PlayerDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['object_list'] = Player.objects.all()
+        kwargs['active_object'] = kwargs['object'].id
         return super(generic.DetailView, self).get_context_data(**kwargs)
