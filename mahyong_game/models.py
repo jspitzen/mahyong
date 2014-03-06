@@ -26,6 +26,10 @@ class Player(models.Model):
         # Return string representation of the full name of the player
         return str.format("{} {}", self.first_name, self.last_name)
 
+    def link(self):
+        # Return the link to the detailview for this Player
+        return object_detail_link(self)
+
     def __unicode__(self):
         return self.fullname()
 
