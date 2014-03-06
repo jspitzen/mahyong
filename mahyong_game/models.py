@@ -27,6 +27,9 @@ class Player(models.Model):
     def __unicode__(self):
         return self.fullname()
 
+    class Meta:
+        ordering = ["last_name", "first_name"]
+
 class Family(models.Model):
     name = models.CharField(max_length = 32, unique = True)
     
