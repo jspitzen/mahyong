@@ -2,4 +2,12 @@
 {% block title %} {{ game.name }} {% endblock %}
 {% block content %}
 <h1 class="page-header">{{ game.name }}</h1>
+<dl>
+    <dt>Gestart</dt>
+    <dd>{{ game.date_started }}</dd>
+{% if game.isFinished %}
+    <dt>Ge&euml;indigd</dt>
+    <dd>{{ game.finished }}</dd>
+{% endif %}
+</dl>
 {% endblock %}

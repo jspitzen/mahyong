@@ -30,6 +30,10 @@ class Player(models.Model):
         # Return the link to the detailview for this Player
         return object_detail_link(self)
 
+    def count_games(self):
+        # Return the number of started games
+        return self.games.count()
+
     def __unicode__(self):
         return self.fullname()
 
@@ -52,8 +56,9 @@ class Family(models.Model):
 class Game(models.Model):
     name         = models.CharField(max_length = 64, blank = True)
     date_started = models.DateField()
-    players      = models.ManyToManyField('Player')
-    
+    players      = models.ManyToManyField('Player', related_name='games')
+    finished     = models.DateField(blank = True, null = True)
+
     def __unicode__(self):
         return str.format("{}: {}", self.id, self.name)
 
