@@ -1,3 +1,3 @@
 mahyong
 =======
-testing git hook 3
+Now, the hook should be working...
